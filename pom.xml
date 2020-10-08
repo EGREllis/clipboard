@@ -54,14 +54,12 @@
 	  <configuration>
 	    <archive>
 	      <manifest>
-		<addClasspath>true</addClasspath>
-		<classpathPrefix>libs/</classpathPrefix>
-                <mainClass>
-			net.clipboard.App
-                </mainClass>
-              </manifest>
-            </archive>
-          </configuration>
+		    <addClasspath>true</addClasspath>
+		    <classpathPrefix>libs/</classpathPrefix>
+            <mainClass>net.clipboard.App</mainClass>
+          </manifest>
+        </archive>
+      </configuration>
 	</plugin>
 
         <plugin>
