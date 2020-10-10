@@ -87,16 +87,22 @@ public class SwingView {
     }
 
     private void applyKeyBindings() {
-        for (int i = 0; i < 10; i++) {
-            KeyStroke copyKeyStroke = KeyStroke.getKeyStroke(String.format("ctrl %1$d", i));
-            System.out.println(String.format("Registered copy against keystroke %1$s", copyKeyStroke));
-            panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(copyKeyStroke, "pressed");
-            panel.getActionMap().put(copyKeyStroke, new CopyAction(transfer, i == 0 ? 10 : i));
+        for (int i = 1; i <= 10; i++) {
+            KeyStroke copyKeyStroke = KeyStroke.getKeyStroke(String.format("F%1$d", i));
+            String copyKey = String.format("copy to %1$d", i);
+            System.out.println(String.format("Registered copy against keystroke %1$s (%2$s)", copyKeyStroke, copyKey));
+            panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(copyKeyStroke, copyKey);
+            ActionMap actionMap = panel.getActionMap();
+            actionMap.put(copyKey, new CopyAction(transfer, i));
+            panel.setActionMap(actionMap);
 
-            KeyStroke pasteKeyStroke = KeyStroke.getKeyStroke(String.format("alt %1$d", i));
-            System.out.println(String.format("Registered paste against keystroke %1$s", pasteKeyStroke));
-            panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(pasteKeyStroke, "pressed");
-            panel.getActionMap().put(pasteKeyStroke, new PasteAction(transfer, i == 0 ? 10 : i));
+            KeyStroke pasteKeyStroke = KeyStroke.getKeyStroke(String.format("ctrl F%1$d", i));
+            String pasteKey = String.format("paste to %1$d", i);
+            System.out.println(String.format("Registered paste against keystroke %1$s (%2$s)", pasteKeyStroke, pasteKey));
+            panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(pasteKeyStroke, pasteKey);
+            actionMap = panel.getActionMap();
+            actionMap.put(pasteKey, new PasteAction(transfer, i));
+            panel.setActionMap(actionMap);
         }
     }
 
@@ -105,7 +111,7 @@ public class SwingView {
         private final int index;
         private boolean enabled = false;
 
-        public CopyAction(Transfer transfer, int index) {
+        private CopyAction(Transfer transfer, int index) {
             this.transfer = transfer;
             this.index = index;
         }
@@ -153,7 +159,7 @@ public class SwingView {
         private final int index;
         private boolean enabled = false;
 
-        public PasteAction(Transfer transfer, int index) {
+        private PasteAction(Transfer transfer, int index) {
             this.transfer = transfer;
             this.index = index;
         }
